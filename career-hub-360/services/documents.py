@@ -50,8 +50,23 @@ class SourceDoc:
 
 
 def _iter_paragraphs(doc) -> list[Paragraph]:
-    """Tous les paragraphes du corps, y compris tableaux et zones de texte, dans l'ordre du document."""
-    return [Paragraph(p, doc) for p in doc.element.body.iter(qn("w:p"))]
+    """Tous les paragraphes : corps (tableaux et zones de texte compris), puis en-têtes et pieds de page."""
+    out = [Paragraph(p, doc) for p in doc.element.body.iter(qn("w:p"))]
+    seen = set()
+    for sec in doc.sections:
+        for part in (sec.header, sec.first_page_header, sec.even_page_header,
+                     sec.footer, sec.first_page_footer, sec.even_page_footer):
+            try:
+                if part.is_linked_to_previous:
+                    continue
+                el = part._element
+            except Exception:  # noqa: BLE001
+                continue
+            if id(el) in seen:
+                continue
+            seen.add(id(el))
+            out += [Paragraph(p, part) for p in el.iter(qn("w:p"))]
+    return out
 
 
 def _in_fallback(p: Paragraph) -> bool:
@@ -471,3 +486,183 @@ def save_output(folder: Path, name: str, data: bytes) -> str:
 
 def file_exists(p: str | None) -> bool:
     return bool(p) and os.path.exists(p)
+
+
+# ====================================================================== CV : remplacement du seul titre
+def replace_text_everywhere(data: bytes, old: str, new: str) -> tuple[bytes, int]:
+    """Remplace un texte (le titre du CV) partout où il apparaît, sans toucher au reste du document.
+
+    Paragraphe identique → texte remplacé en gardant la mise en forme ; sinon, remplacement à l'intérieur du paragraphe.
+    Renvoie (document, nombre de remplacements).
+    """
+    doc = Document(io.BytesIO(data))
+    norm_old = re.sub(r"\s+", " ", old).strip()
+    n = 0
+    for p in _iter_paragraphs(doc):
+        t = _para_text(p)
+        tn = re.sub(r"\s+", " ", t).strip()
+        if not tn or norm_old not in tn:
+            continue
+        if tn == norm_old:
+            set_paragraph_text(p, new)
+        else:
+            set_paragraph_text(p, tn.replace(norm_old, new))
+        n += 1
+    out = io.BytesIO()
+    doc.save(out)
+    return out.getvalue(), n
+
+
+# ====================================================================== lettre : destinataire, date, objet, motivation
+SALUT_RX = re.compile(r"^\s*(madame|monsieur|mesdames|bonjour|cher|ch[eè]re)\b", re.I)
+CLOSE_RX = re.compile(r"(prie d'agr[ée]er|veuillez agr[ée]er|vous prie de croire|salutations|cordialement|"
+                      r"sentiments distingu|respectueuses)", re.I)
+OBJET_RX = re.compile(r"^\s*objet\s*:?", re.I)
+DATE_RX = re.compile(r"\b(?:le\s+)?\d{1,2}(?:er)?\s+(?:janvier|f[ée]vrier|mars|avril|mai|juin|juillet|ao[uû]t|septembre|"
+                     r"octobre|novembre|d[ée]cembre)\s+\d{4}\b|\b\d{1,2}/\d{1,2}/\d{2,4}\b", re.I)
+
+
+def letter_structure(doc: SourceDoc) -> dict:
+    """Repère dans une lettre Word : ligne de date, objet, formule d'appel, paragraphes du corps, formule de politesse."""
+    ps = [p for p in doc.paragraphs if p.text.strip()]
+    st = {"date": None, "objet": None, "salut": None, "close": None, "body": []}
+    for p in ps:
+        if st["objet"] is None and OBJET_RX.match(p.text):
+            st["objet"] = p.idx
+        elif st["date"] is None and DATE_RX.search(p.text) and len(p.text) < 80:
+            st["date"] = p.idx
+        elif st["salut"] is None and SALUT_RX.match(p.text) and len(p.text) < 60:
+            st["salut"] = p.idx
+    if st["salut"] is not None:
+        after = [p for p in ps if p.idx > st["salut"]]
+        for p in after:
+            if CLOSE_RX.search(p.text):
+                st["close"] = p.idx
+                break
+        end = st["close"] if st["close"] is not None else (after[-2].idx if len(after) >= 2 else None)
+        st["body"] = [p.idx for p in after if end is None or p.idx < end]
+    return st
+
+
+def _clone_paragraph(ref, text: str, align: str | None):
+    """Nouveau paragraphe avec le style et la police de `ref` (sans son texte)."""
+    import copy
+    new = copy.deepcopy(ref._p)
+    for child in list(new):
+        if child.tag != qn("w:pPr"):
+            new.remove(child)
+    rpr = None
+    for r in ref._p.iter(qn("w:r")):
+        if _owner_p(r) is ref._p and r.find(qn("w:rPr")) is not None and any(True for _ in r.iter(qn("w:t"))):
+            rpr = copy.deepcopy(r.find(qn("w:rPr")))
+            break
+    para = Paragraph(new, ref._parent)
+    run = para.add_run(text)
+    if rpr is not None:
+        for b in rpr.findall(qn("w:b")) + rpr.findall(qn("w:bCs")):
+            rpr.remove(b)
+        run._r.insert(0, rpr)
+    if align == "right":
+        para.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    return para
+
+
+def adapt_letter_docx(data: bytes, recipient: list[str], date_line: str, objet: str | None, body: list[str],
+                      replace_idx: list[int] | None = None) -> bytes:
+    """Lettre Word modèle → même lettre avec bloc destinataire (à droite), date du jour (à droite), objet et
+    paragraphes de motivation remplacés. Le reste (expéditeur, formules, signature, mise en forme) ne bouge pas."""
+    src = read_document(data, "x.docx")
+    stc = letter_structure(src)
+    doc = Document(io.BytesIO(data))
+    paras = _iter_paragraphs(doc)
+    get = lambda i: paras[i] if i is not None and 0 <= i < len(paras) else None  # noqa: E731
+    p_date, p_obj, p_salut = get(stc["date"]), get(stc["objet"]), get(stc["salut"])
+    body_ps = [paras[i] for i in stc["body"] if 0 <= i < len(paras)]
+    ref = body_ps[0] if body_ps else (p_salut or next((p for p in paras if _para_text(p).strip()), paras[0]))
+
+    # 1. corps : autant de paragraphes que le modèle
+    if body_ps and body:
+        texts = list(body)
+        if len(texts) > len(body_ps):
+            texts = texts[:len(body_ps) - 1] + [" ".join(texts[len(body_ps) - 1:])]
+        for p, t in zip(body_ps, texts):
+            set_paragraph_text(p, t)
+        for p in body_ps[len(texts):]:
+            p._p.getparent().remove(p._p)
+    # 2. objet
+    if objet and p_obj is not None:
+        t = _para_text(p_obj)
+        m = OBJET_RX.match(t)
+        set_paragraph_text(p_obj, (t[:m.end()].rstrip() + " " if m else "Objet : ") + objet)
+    # 3. bloc destinataire à remplacer (choisi par l'utilisateur)
+    anchor = None
+    for i in sorted(replace_idx or []):
+        p = get(i)
+        if p is not None and p not in (p_date, p_obj, p_salut):
+            if anchor is None:
+                anchor = _clone_paragraph(p, "", None)
+                p._p.addprevious(anchor._p)
+            p._p.getparent().remove(p._p)
+    # 4. date : ligne existante remplacée et alignée à droite, sinon ajoutée
+    if p_date is not None:
+        set_paragraph_text(p_date, date_line)
+        p_date.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    # 5. destinataire (à droite) puis date, avant la date existante / l'objet / la formule d'appel
+    target = anchor or p_date or p_obj or p_salut or ref
+    lines = [l for l in recipient if l.strip()]
+    for l in lines:
+        np_ = _clone_paragraph(ref, l, "right")
+        np_.paragraph_format.space_after = Pt(0)
+        np_.paragraph_format.space_before = Pt(0)
+        target._p.addprevious(np_._p)
+    if lines:
+        spacer = _clone_paragraph(ref, "", None)
+        target._p.addprevious(spacer._p)
+    if p_date is None:
+        d = _clone_paragraph(ref, date_line, "right")
+        target._p.addprevious(d._p)
+        target._p.addprevious(_clone_paragraph(ref, "", None)._p)
+    if anchor is not None:
+        anchor._p.getparent().remove(anchor._p)
+    out = io.BytesIO()
+    doc.save(out)
+    return out.getvalue()
+
+
+def standard_letter_docx(sender: list[str], recipient: list[str], date_line: str, objet: str, salut: str,
+                         body: list[str], close: str, signature: str, base_font: str = "Calibri") -> bytes:
+    """Lettre standard (sans modèle Word) : expéditeur à gauche, destinataire et date à droite."""
+    doc = Document()
+    for s_ in doc.sections:
+        s_.top_margin = s_.bottom_margin = Cm(2.2)
+        s_.left_margin = s_.right_margin = Cm(2.4)
+    stl = doc.styles["Normal"]
+    stl.font.name = base_font
+    stl.font.size = Pt(11)
+
+    def add(text, align=None, after=8, bold=False):
+        p = doc.add_paragraph()
+        r = p.add_run(text)
+        r.bold = bold
+        if align == "right":
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        elif align == "justify":
+            p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        p.paragraph_format.space_after = Pt(after)
+        return p
+    for l in sender:
+        add(l, after=0)
+    add("")
+    for l in recipient:
+        add(l, "right", 0)
+    add("")
+    add(date_line, "right", 14)
+    add(f"Objet : {objet}", after=14, bold=True)
+    add(salut, after=10)
+    for b in body:
+        add(b, "justify", 10)
+    add(close, "justify", 18)
+    add(signature, "right", 0)
+    out = io.BytesIO()
+    doc.save(out)
+    return out.getvalue()
