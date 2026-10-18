@@ -1,0 +1,3 @@
+libreoffice-writer-nogui
+fonts-dejavu-core
+fonts-liberation

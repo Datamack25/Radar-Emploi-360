@@ -1,0 +1,202 @@
+nom;categorie;site;ats;token;alias
+BNP Paribas;Banque;https://group.bnpparibas/emploi-carriere;;;BNP|Hello bank|BNP Paribas Personal Finance|Cetelem|BNP Paribas CIB
+Société Générale;Banque;https://careers.societegenerale.com;;;SG|BoursoBank|Boursorama|Societe Generale CIB
+Crédit Agricole;Banque;https://jobs.credit-agricole.com;;;Crédit Agricole CIB|CACIB|Caisse régionale de Crédit Agricole|CA Personal Finance|Sofinco|Indosuez
+LCL;Banque;;;;Le Crédit Lyonnais
+Groupe BPCE;Banque;https://recrutement.bpce.fr;;;BPCE|Banque Populaire|Caisse d'Epargne|Crédit Coopératif|Banque Palatine
+Natixis;Banque;;;;Natixis CIB
+Crédit Mutuel Alliance Fédérale;Banque;https://recrutement.creditmutuel.fr;;;Crédit Mutuel|CIC|Banque Transatlantique|Targo
+Crédit Mutuel Arkéa;Banque;;;;Arkéa|Arkea|Fortuneo
+La Banque Postale;Banque;;;;Banque Postale
+BRED Banque Populaire;Banque;;;;BRED
+HSBC Continental Europe;Banque;;;;HSBC
+Banque Delubac & Cie;Banque;;;;Delubac
+Oddo BHF;Banque;;;;ODDO
+Rothschild & Co;Banque;;;;Rothschild
+Edmond de Rothschild;Banque;;;;
+Neuflize OBC;Banque;;;;
+Lazard;Banque;;;;Lazard Frères
+Bpifrance;Banque;;;;BPI France
+BforBank;Banque;;;;
+Ma French Bank;Banque;;;;
+Memo Bank;Banque;;;;
+My Money Bank;Banque;;;;
+Floa;Banque;;;;FLOA Bank
+Cofidis;Banque;;;;
+Oney;Banque;;;;Oney Bank
+Franfinance;Banque;;;;
+CA Consumer Finance;Banque;;;;
+J.P. Morgan;Banque;;;;JPMorgan|JP Morgan
+Goldman Sachs;Banque;;;;
+Morgan Stanley;Banque;;;;
+Deutsche Bank;Banque;;;;
+Barclays;Banque;;;;
+UBS;Banque;;;;
+Citi;Banque;;;;Citibank|Citigroup
+Bank of America;Banque;;;;
+MUFG;Banque;;;;
+Mizuho;Banque;;;;
+Bank of China;Banque;;;;
+Attijariwafa bank Europe;Banque;;;;Attijariwafa
+Bank of Africa Europe;Banque;;;;BMCE
+Banque Chaabi du Maroc;Banque;;;;Chaabi
+United Bank for Africa;Banque;;;;UBA
+Ecobank;Banque;;;;
+Banque Libano-Française;Banque;;;;BLF
+Qonto;Fintech / PSP;;lever;qonto;
+Swan;Fintech / PSP;;;;
+Treezor;Fintech / PSP;;;;
+Lemonway;Fintech / PSP;;;;Lemon Way
+Mangopay;Fintech / PSP;;;;
+HiPay;Fintech / PSP;;;;
+Lyra;Fintech / PSP;;;;Lyra Network
+PayPlug;Fintech / PSP;;;;
+Stancer;Fintech / PSP;;;;
+Monext;Fintech / PSP;;;;Payline
+Worldline;Fintech / PSP;;;;
+Adyen;Fintech / PSP;;greenhouse;adyen;
+Stripe;Fintech / PSP;;greenhouse;stripe;
+Checkout.com;Fintech / PSP;;greenhouse;checkoutcom;
+Revolut;Fintech / PSP;;;;
+N26;Fintech / PSP;;greenhouse;n26;
+Wise;Fintech / PSP;;;;TransferWise
+PayPal;Fintech / PSP;;;;
+Lydia;Fintech / PSP;;;;Sumeria
+Nickel;Fintech / PSP;;;;
+Shine;Fintech / PSP;;;;
+Pennylane;Fintech / PSP;;;;
+Spendesk;Fintech / PSP;;;;
+Swile;Fintech / PSP;;;;
+Alma;Fintech / PSP;;;;
+Younited;Fintech / PSP;;;;Younited Credit
+October;Fintech / PSP;;;;
+Libeo;Fintech / PSP;;;;
+Defacto;Fintech / PSP;;;;
+Silvr;Fintech / PSP;;;;
+Bridge;Fintech / PSP;;;;Bankin
+Powens;Fintech / PSP;;;;Budget Insight
+Fintecture;Fintech / PSP;;;;
+iBanFirst;Fintech / PSP;;;;
+Payoneer;Fintech / PSP;;;;
+Airwallex;Fintech / PSP;;;;
+Ebury;Fintech / PSP;;;;
+Western Union;Transfert d'argent;;;;
+MoneyGram;Transfert d'argent;;;;
+Ria Money Transfer;Transfert d'argent;;;;Ria Financial
+Remitly;Transfert d'argent;;;;
+Zepz;Transfert d'argent;;;;WorldRemit|Sendwave
+Taptap Send;Transfert d'argent;;;;
+LemFi;Transfert d'argent;;;;
+Paysend;Transfert d'argent;;;;
+Small World;Transfert d'argent;;;;Small World Financial Services
+Wave Mobile Money;Transfert d'argent;;;;
+Ledger;Crypto;;lever;ledger;
+Coinhouse;Crypto;;;;
+Paymium;Crypto;;;;
+Bitpanda;Crypto;;;;
+Coinbase;Crypto;;greenhouse;coinbase;
+Kraken;Crypto;;;;
+Binance;Crypto;;;;
+Crypto.com;Crypto;;;;
+Meria;Crypto;;;;
+Bitstack;Crypto;;;;
+Circle;Crypto;;;;
+IDnow;RegTech;;;;
+Onfido;RegTech;;;;
+Sumsub;RegTech;;;;
+ComplyAdvantage;RegTech;;;;
+Ubble;RegTech;;;;
+Quantexa;RegTech;;;;
+Napier;RegTech;;;;Napier AI
+Fenergo;RegTech;;;;
+Hawk;RegTech;;;;Hawk AI
+Moody's;RegTech;;;;Moodys
+LexisNexis Risk Solutions;RegTech;;;;LexisNexis
+Dow Jones;RegTech;;;;
+LSEG;RegTech;;;;Refinitiv|World-Check
+Vneuron;RegTech;;;;
+Deloitte;Cabinet;;;;Deloitte Conseil
+PwC;Cabinet;;;;PricewaterhouseCoopers
+EY;Cabinet;;;;Ernst & Young
+KPMG;Cabinet;;;;
+Forvis Mazars;Cabinet;;;;Mazars
+Grant Thornton;Cabinet;;;;
+BDO;Cabinet;;;;
+RSM;Cabinet;;;;
+Sia Partners;Cabinet;;;;
+Wavestone;Cabinet;;;;
+Accenture;Cabinet;;;;
+Capgemini;Cabinet;;;;Capgemini Invent
+Sopra Steria;Cabinet;;;;Sopra Banking
+CGI;Cabinet;;;;
+Alvarez & Marsal;Cabinet;;;;
+Kroll;Cabinet;;;;
+FTI Consulting;Cabinet;;;;
+BearingPoint;Cabinet;;;;
+Square Management;Cabinet;;;;
+Onepoint;Cabinet;;;;
+Exton Consulting;Cabinet;;;;
+CH&Co;Cabinet;;;;Chappuis Halder
+Mc2i;Cabinet;;;;
+Keyrus;Cabinet;;;;
+Talan;Cabinet;;;;
+Nexialog;Cabinet;;;;
+Finaxys;Cabinet;;;;
+AXA;Assurance;;;;AXA France
+Allianz;Assurance;;;;Allianz France
+Allianz Trade;Assurance;;;;Euler Hermes
+Generali;Assurance;;;;
+CNP Assurances;Assurance;;;;CNP
+Groupama;Assurance;;;;
+Covéa;Assurance;;;;Covea|MMA|MAAF|GMF
+Macif;Assurance;;;;Aéma
+MAIF;Assurance;;;;
+Matmut;Assurance;;;;
+AG2R La Mondiale;Assurance;;;;AG2R
+Malakoff Humanis;Assurance;;;;
+Swiss Life;Assurance;;;;
+Abeille Assurances;Assurance;;;;Aviva
+Crédit Agricole Assurances;Assurance;;;;Predica|Pacifica
+BNP Paribas Cardif;Assurance;;;;Cardif
+Coface;Assurance;;;;
+SCOR;Assurance;;;;
+Hiscox;Assurance;;;;
+Chubb;Assurance;;;;
+AIG;Assurance;;;;
+Harmonie Mutuelle;Assurance;;;;
+MGEN;Assurance;;;;Groupe VYV
+April;Assurance;;;;
+Amundi;Gestion d'actifs;;;;
+Natixis Investment Managers;Gestion d'actifs;;;;
+AXA Investment Managers;Gestion d'actifs;;;;AXA IM
+BNP Paribas Asset Management;Gestion d'actifs;;;;BNP Paribas AM
+Carmignac;Gestion d'actifs;;;;
+Tikehau Capital;Gestion d'actifs;;;;Tikehau
+Ardian;Gestion d'actifs;;;;
+Eurazeo;Gestion d'actifs;;;;
+Ofi Invest;Gestion d'actifs;;;;
+LBP AM;Gestion d'actifs;;;;
+Candriam;Gestion d'actifs;;;;
+CACEIS;Gestion d'actifs;;;;
+Société Générale Securities Services;Gestion d'actifs;;;;SGSS
+Banque de France;Régulateur / public;;;;
+ACPR;Régulateur / public;;;;Autorité de contrôle prudentiel et de résolution
+AMF;Régulateur / public;;;;Autorité des marchés financiers
+Tracfin;Régulateur / public;;;;
+Caisse des Dépôts;Régulateur / public;;;;CDC
+AFD;Régulateur / public;;;;Agence française de développement
+Hays;Recrutement / intérim;;;;
+Robert Half;Recrutement / intérim;;;;
+Michael Page;Recrutement / intérim;;;;PageGroup|Page Personnel
+Walters People;Recrutement / intérim;;;;Robert Walters
+Fed Finance;Recrutement / intérim;;;;Fed Group
+Adecco;Recrutement / intérim;;;;
+Randstad;Recrutement / intérim;;;;
+Manpower;Recrutement / intérim;;;;ManpowerGroup
+Expectra;Recrutement / intérim;;;;
+Hudson;Recrutement / intérim;;;;
+Morgan Philips;Recrutement / intérim;;;;
+Synergie;Recrutement / intérim;;;;
+Proman;Recrutement / intérim;;;;
+Approach People;Recrutement / intérim;;;;
+Harvey Nash;Recrutement / intérim;;;;

@@ -1,0 +1,52 @@
+# Radar Emploi 3 — votre profil et vos critères.
+# Toute modification s'applique à la prochaine « Mise à jour des offres ».
+
+[candidat]
+nom = ""
+# Conformité / LCB-FT / KYC / sanctions / business analyst : expérience demandée de 0 à N ans
+experience_max_ans = 3
+# Analyste crédit : seulement les postes ouverts aux débutants (0 à N an)
+credit_experience_max_ans = 1
+# Salaire annuel brut minimum. Une offre qui indique un salaire inférieur est écartée ;
+# une offre sans salaire indiqué est gardée (la plupart n'en affichent pas).
+salaire_min_annuel = 33000
+# Contrats acceptés, et durée minimale des CDD / missions d'intérim
+contrats = ["CDI", "CDD", "Intérim"]
+duree_min_mois = 3
+# Ancienneté maximale des offres (jours)
+fraicheur_jours = 30
+# Score minimum affiché par défaut
+score_minimum = 40
+
+[recherche]
+# Requêtes envoyées à France Travail et Adzuna (France entière). Les offres reçues sont ensuite filtrées.
+mots_cles = [
+  "conformité",
+  "compliance",
+  "LCB-FT",
+  "anti-blanchiment",
+  "KYC",
+  "sanctions",
+  "sécurité financière",
+  "business analyst KYC",
+  "business analyst conformité",
+  "business analyst compliance",
+  "analyste crédit",
+  "analyste risque crédit",
+  "credit analyst",
+]
+# Google Emploi (SerpApi) : chaque requête consomme 1 recherche de votre quota SerpApi.
+# Liste courte pour ménager l'offre gratuite : 6 mots-clés x 1 page = 6 recherches par mise à jour.
+mots_cles_google = [
+  "analyste LCB-FT",
+  "analyste KYC",
+  "chargé de conformité junior",
+  "analyste sanctions embargos",
+  "business analyst KYC conformité",
+  "analyste crédit junior",
+]
+# Pages lues par mot-clé (France Travail : 150 offres ; Google : 10 ; Jooble : 20 ; Adzuna : 50)
+pages_france_travail = 2
+pages_google = 1
+pages_jooble = 2
+pages_adzuna = 2
